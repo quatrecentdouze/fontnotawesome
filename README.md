@@ -202,7 +202,7 @@ Icons inherit text color and size from their parent elements:
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/fontnotawesome.git
+git clone https://github.com/quatrecentdouze/fontnotawesome.git
 cd fontnotawesome
 npm install
 ```
