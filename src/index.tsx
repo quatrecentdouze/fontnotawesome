@@ -1,0 +1,11 @@
+export { Icon } from './Icon';
+export { useIcon } from './useIcon';
+export { icons } from './icons';
+export type {
+  IconProps,
+  IconWeight,
+  IconFamily,
+  IconVariant,
+  IconSize,
+} from './utils';
+export { parseIconName, getIconClass } from './utils';
