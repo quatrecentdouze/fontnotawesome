@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./img/fontnotawesome-banner.png" alt="fontnotawesome Logo" />
+  <img src="https://raw.githubusercontent.com/quatrecentdouze/fontnotawesome/refs/heads/main/img/fontnotawesome-banner.png" alt="fontnotawesome Logo" />
 </p>
 
 <p align="center">
