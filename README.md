@@ -1,8 +1,8 @@
-![fontnotawesome Logo](./img/fontnotawesome-logo.png)
+![fontnotawesome Logo](./img/fontnotawesome-banner.png)
 
-# fontnotawesome
+# FontNotAwesome
 
-A lightweight React component library for **fontnotawesome** icons. Provides an easy-to-use component and utilities to integrate fontnotawesome icons into your React applications with full TypeScript support.
+A lightweight React component library for **FontNotAwesome** icons. Provides an easy-to-use component and utilities to integrate fontnotawesome icons into your React applications with full TypeScript support.
 
 ## Features
 
@@ -11,7 +11,7 @@ A lightweight React component library for **fontnotawesome** icons. Provides an 
 - 🎯 **TypeScript** - Full TypeScript support with type definitions
 - 🎪 **Multiple Families** - Classic and Sharp variants
 - 🎨 **Font Weights** - Thin, Light, Regular, and Solid weights
-- 🪝 **React Hooks** - `useIcon` hook for flexible implementations
+- ↩️ **React Hooks** - `useIcon` hook for flexible implementations
 - 📦 **Tree-shakeable** - Import only what you need
 
 ## Quick Start
