@@ -1,6 +1,6 @@
 {
   "name": "fontnotawesome",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "A lightweight React component library for fontnotawesome icons",
   "main": "dist/index.js",
   "module": "dist/index.js",
