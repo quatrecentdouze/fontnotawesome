@@ -1,39 +1,41 @@
 const fs = require('fs');
 const path = require('path');
 
-let sourceDir = path.join(__dirname, '..', 'fontnotawesome-assets', 'css');
-if (!fs.existsSync(sourceDir)) {
-  sourceDir = path.join(__dirname, '..', 'dist');
-}
-
+const svgsDir = path.join(__dirname, '..', 'fontnotawesome-assets', 'svgs');
 const destFile = path.join(__dirname, '..', 'src', 'icons.json');
 
-// Read all CSS files and map their families
-const cssFiles = fs.readdirSync(sourceDir).filter(file => file.endsWith('.css') && !file.includes('v4') && !file.includes('svg-with-js'));
+const iconToFamilies = new Map();
 
-// Parse each CSS file and store which icons are in which files
-const iconToFiles = new Map();
-
-cssFiles.forEach(file => {
-  const src = path.join(sourceDir, file);
-  const content = fs.readFileSync(src, 'utf-8');
+function walkSync(dir) {
+  const files = fs.readdirSync(dir, { withFileTypes: true });
   
-  const regex = /\.fa-([a-z0-9-]+)(?:\s*[{:,]|$)/gi;
-  let match;
-  
-  while ((match = regex.exec(content)) !== null) {
-    const iconName = match[1];
-    const excludedPrefixes = ['fw', 'sharp', 'brands', 'light', 'regular', 'solid', 'thin', 'duotone', 'fill'];
-    const isSizeModifier = /^(\d+x|xs|sm|md|lg|xl|2xl|2xs)$/i.test(iconName);
+  files.forEach(file => {
+    const fullPath = path.join(dir, file.name);
     
-    if (iconName && !excludedPrefixes.includes(iconName) && !isSizeModifier) {
-      if (!iconToFiles.has(iconName)) {
-        iconToFiles.set(iconName, []);
+    if (file.isDirectory()) {
+      walkSync(fullPath);
+    } else if (file.name.endsWith('.svg')) {
+      const relPath = path.relative(svgsDir, fullPath);
+      const parts = relPath.split(path.sep);
+      
+      if (parts.length >= 2) {
+        const family = parts[0];
+        const iconName = path.basename(file.name, '.svg');
+        
+        if (!iconToFamilies.has(iconName)) {
+          iconToFamilies.set(iconName, []);
+        }
+        
+        const families = iconToFamilies.get(iconName);
+        if (!families.includes(family)) {
+          families.push(family);
+        }
       }
-      iconToFiles.get(iconName).push(file);
     }
-  }
-});
+  });
+}
+
+walkSync(svgsDir);
 
 // Map families to icons
 const iconFamilies = {};
@@ -64,32 +66,20 @@ const familyPriority = {
   'thin': -14
 };
 
-iconToFiles.forEach((files, iconName) => {
-  const families = new Map();
+iconToFamilies.forEach((families, iconName) => {
+  const familiesWithPriority = families.map(family => ({
+    family,
+    priority: familyPriority[family] !== undefined ? familyPriority[family] : -100
+  }));
   
-  files.forEach(file => {
-    // Find which family this file belongs to
-    for (const [family, priority] of Object.entries(familyPriority)) {
-      if (file.includes(family)) {
-        const displayFamily = family === 'svg' || family === 'fontawesome' || family === 'all' ? 'classic' : family;
-        if (!families.has(displayFamily)) {
-          families.set(displayFamily, priority);
-        } else {
-          families.set(displayFamily, Math.max(families.get(displayFamily), priority));
-        }
-        break;
-      }
-    }
-  });
+  const sortedFamilies = familiesWithPriority
+    .sort((a, b) => b.priority - a.priority)
+    .map(item => item.family);
   
-  const familiesArray = Array.from(families.entries())
-    .sort((a, b) => b[1] - a[1])
-    .map(([family]) => family);
-  
-  iconFamilies[iconName] = familiesArray.length > 0 ? familiesArray : ['classic'];
+  iconFamilies[iconName] = sortedFamilies.length > 0 ? sortedFamilies : ['classic'];
 });
 
-const icons = Array.from(iconToFiles.keys()).sort();
+const icons = Array.from(iconToFamilies.keys()).sort();
 
 fs.writeFileSync(destFile, JSON.stringify({ icons, iconFamilies }, null, 2));
 console.log(`✓ Generated ${icons.length} icons to ${destFile}`);
