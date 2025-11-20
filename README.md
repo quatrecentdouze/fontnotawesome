@@ -1,8 +1,21 @@
-![fontnotawesome Logo](./img/fontnotawesome-banner.png)
+<p align="center">
+  <img src="./img/fontnotawesome-banner.png" alt="fontnotawesome Logo" />
+</p>
 
-# FontNotAwesome
+<p align="center">
+  <a href="https://www.npmjs.com/package/fontnotawesome">
+    <img src="https://img.shields.io/npm/v/fontnotawesome.svg" alt="npm version" />
+  </a>
+  <img src="https://img.shields.io/npm/l/fontnotawesome.svg" alt="npm license" />
+  <img src="https://img.shields.io/npm/dm/fontnotawesome.svg" alt="npm downloads" />
+</p>
 
-A lightweight React component library for **FontNotAwesome** icons. Provides an easy-to-use component and utilities to integrate fontnotawesome icons into your React applications with full TypeScript support.
+<h1 align="center">FontNotAwesome</h1>
+
+<p align="center">
+  A lightweight React component library for <strong>FontNotAwesome</strong> icons.<br/>
+  Provides an easy-to-use component and utilities to integrate FontNotAwesome icons into your React applications with full TypeScript support.
+</p>
 
 ## Features
 
